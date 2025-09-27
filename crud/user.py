@@ -65,8 +65,6 @@ class UserCRUD:
             if value is not None:
                 if key == "password":
                     setattr(db_user, "password_hash", get_password_hash(value))
-                elif key == "role":
-                    setattr(db_user, key, value.value if hasattr(value, 'value') else value)
                 else:
                     setattr(db_user, key, value)
                     

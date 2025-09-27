@@ -12,8 +12,8 @@ class User(Base):
     name = Column(String, nullable=False, index=True)
     email = Column(String, unique=True, nullable=False, index=True)
     password_hash = Column(String(255), nullable=False)
-    status = Column(String, default="active")  # status: active, inactive
-    role = Column(String, default="user")  # roles: user, admin
+    status = Column(String, default="active")  
+    role = Column(String, default="user") 
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime, default=datetime.now(timezone.utc))
 
