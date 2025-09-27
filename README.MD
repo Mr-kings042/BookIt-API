@@ -8,7 +8,7 @@
 
 A comprehensive REST API for a modern booking platform called **BookIt**. This API enables users to browse services, make bookings, leave reviews, and provides full administrative capabilities for managing the platform.
 
-## 🚀 Features
+##  Features
 
 ### Core Functionality
 - **User Management**: Registration, authentication, profile management
@@ -26,7 +26,7 @@ A comprehensive REST API for a modern booking platform called **BookIt**. This A
 - **API Documentation**: Auto-generated OpenAPI/Swagger documentation
 - **Data Validation**: Robust input validation with Pydantic schemas
 
-## 🏗️ Architecture
+##  Architecture
 
 ### Tech Stack
 - **Framework**: FastAPI (Python 3.13)
@@ -66,17 +66,17 @@ BookIt-API/
 └── main.py                  # Application entry point
 ```
 
-## 📋 Prerequisites
+##  Prerequisites
 
 - Python 3.13+
 - PostgreSQL (for production)
 - pip or pipenv for dependency management
 
-## ⚡ Quick Start
+##  How to Start
 
 ### 1. Clone the Repository
 ```bash
-git clone <repository-url>
+git clone https://github.com/Mr-kings042/BookIt-API.git
 cd BookIt-API
 ```
 
@@ -97,13 +97,7 @@ source menv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 4. Configure Environment
-```bash
-# Copy example configuration
-cp config.example.py config.py
-
-# Edit config.py with your database settings
-```
+### 4. Create an .env file with values on .env.example file
 
 ### 5. Set Up Database
 ```bash
@@ -125,34 +119,7 @@ uvicorn main:app --host 0.0.0.0 --port 8000
 - **Interactive Docs**: `http://localhost:8000/docs`
 - **ReDoc**: `http://localhost:8000/redoc`
 
-## 🔧 Configuration
-
-Create a `config.py` file in the project root:
-
-```python
-import os
-from typing import Optional
-
-class Settings:
-    # Database
-    DATABASE_URL: str = os.getenv("DATABASE_URL", "postgresql://user:password@localhost/bookit")
-    TEST_DATABASE_URL: str = "sqlite:///./test.db"
-    
-    # Security
-    SECRET_KEY: str = os.getenv("SECRET_KEY", "your-secret-key-here")
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
-    
-    # Application
-    API_V1_STR: str = "/api"
-    PROJECT_NAME: str = "BookIt API"
-    
-    class Config:
-        case_sensitive = True
-
-settings = Settings()
-```
-
-## 📚 API Documentation
+##  API Documentation
 
 ### Authentication
 All protected endpoints require a JWT token in the Authorization header:
@@ -246,7 +213,7 @@ Authorization: Bearer <your-jwt-token>
 }
 ```
 
-## 🧪 Testing
+##  Testing
 
 ### Run Tests
 ```bash
@@ -272,7 +239,7 @@ The project includes comprehensive tests for:
 - Admin operations
 - Edge cases and error handling
 
-## 🔒 Security Features
+##  Security Features
 
 ### Authentication & Authorization
 - **JWT Tokens**: Secure, stateless authentication
@@ -291,13 +258,13 @@ The project includes comprehensive tests for:
 - **Time Validation**: Bookings must be in the future
 - **Status Validation**: Proper booking status transitions
 
-## 🚀 Deployment
+##  Deployment
 
 ### Environment Variables
 ```bash
-export DATABASE_URL="postgresql://user:password@localhost/bookit"
-export SECRET_KEY="your-secure-secret-key"
-export ACCESS_TOKEN_EXPIRE_MINUTES=30
+ DATABASE_URL="postgresql://user:password@localhost/bookit"
+ SECRET_KEY="your-secure-secret-key"
+ACCESS_TOKEN_EXPIRE_MINUTES=30
 ```
 
 ### Docker Deployment (Optional)
@@ -315,14 +282,14 @@ CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
 ```
 
 ### Production Considerations
-- Use PostgreSQL for production database
+- Use PostgreSQL for the production database
 - Set up proper environment variables
 - Configure proper logging levels
 - Use HTTPS in production
 - Set up monitoring and health checks
 - Configure CORS for frontend integration
 
-## 🤝 Contributing
+##  Contributing
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
@@ -342,9 +309,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👥 Authors
 
-- **Your Name** - *Initial work* - [Your GitHub](https://github.com/yourusername)
+- **Kingsley Okoh** - *Initial work* - [Your GitHub](https://github.com/Mr-kings042)
 
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 - FastAPI community for the excellent framework
 - SQLAlchemy team for the powerful ORM
@@ -355,7 +322,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 For support and questions:
 - Create an issue on GitHub
-- Email: your-email@example.com
+- Email: okohkings042@gmail.com
 - Documentation: `http://localhost:8000/docs`
 
 ---
