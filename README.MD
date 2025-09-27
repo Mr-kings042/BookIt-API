@@ -303,11 +303,11 @@ CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
 - Update documentation for API changes
 - Use meaningful commit messages
 
-## 📝 License
+##  License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 👥 Authors
+##  Authors
 
 - **Kingsley Okoh** - *Initial work* - [Your GitHub](https://github.com/Mr-kings042)
 
@@ -318,10 +318,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Pydantic for robust data validation
 - The Python community for amazing libraries
 
-## 📞 Support
+##  Support
 
 For support and questions:
-- Create an issue on GitHub
 - Email: okohkings042@gmail.com
 - Documentation: `http://localhost:8000/docs`
 
