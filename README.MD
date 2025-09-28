@@ -213,7 +213,7 @@ Authorization: Bearer <your-jwt-token>
 }
 ```
 ### Example User Logins(production)
-URL
+URL: https://bookit-api-bw93.onrender.com/docs
 ``` json 
 {
   "email": "kingsley@example.com",
