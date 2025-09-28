@@ -212,7 +212,22 @@ Authorization: Bearer <your-jwt-token>
   "created_at": "2025-09-27T00:00:00Z"
 }
 ```
-
+### Example User Logins(production)
+URL
+``` json 
+{
+  "email": "kingsley@example.com",
+  "name": "kings",
+  "role": "admin",
+  "password": "stringst"
+}```
+``` json
+{
+  "email": "kings@example.com",
+  "name": "kings",
+  "role": "user",
+  "password": "stringst"
+}```
 ##  Testing
 
 ### Run Tests
