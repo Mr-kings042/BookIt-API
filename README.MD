@@ -220,14 +220,16 @@ URL
   "name": "kings",
   "role": "admin",
   "password": "stringst"
-}```
+}
+```
 ``` json
 {
   "email": "kings@example.com",
   "name": "kings",
   "role": "user",
   "password": "stringst"
-}```
+}
+```
 ##  Testing
 
 ### Run Tests
