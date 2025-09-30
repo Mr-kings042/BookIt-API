@@ -1,5 +1,6 @@
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
+from sqlalchemy import func
 from typing import List, Optional
 from uuid import UUID
 from models.review import Review
@@ -15,8 +16,8 @@ class ReviewCRUD:
     def create_review(db: Session, review: ReviewCreate, user_id: UUID) -> Review:
         """Create a new review with validation"""
         # Convert UUIDs to strings if needed
-        booking_id_str = str(review.booking_id) if hasattr(review.booking_id, 'hex') else review.booking_id
-        user_id_str = str(user_id) if hasattr(user_id, 'hex') else user_id
+        booking_id_str = str(review.booking_id) 
+        user_id_str = str(user_id) 
         
         # Verify booking exists and belongs to the user
         booking = db.query(Booking).filter(
@@ -31,7 +32,7 @@ class ReviewCRUD:
             )
         
         # Verify booking is completed
-        if booking.status != BookingStatus.completed:
+        if booking.status != "completed":
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Can only review completed bookings"
@@ -68,7 +69,7 @@ class ReviewCRUD:
     @staticmethod
     def get_review_by_id(db: Session, review_id: UUID) -> Optional[Review]:
         """Get review by ID"""
-        review_id_str = str(review_id) if hasattr(review_id, 'hex') else review_id
+        review_id_str = str(review_id) 
         return db.query(Review).filter(Review.id == review_id_str).first()
 
     @staticmethod
@@ -83,24 +84,27 @@ class ReviewCRUD:
         max_rating: Optional[int] = None
     ) -> List[Review]:
         """Get reviews with optional filtering"""
-        # Convert UUIDs to strings if needed
-        user_id_str = str(user_id) if user_id and hasattr(user_id, 'hex') else user_id
-        service_id_str = str(service_id) if service_id and hasattr(service_id, 'hex') else service_id  
-        booking_id_str = str(booking_id) if booking_id and hasattr(booking_id, 'hex') else booking_id
-        
         query = db.query(Review)
         
+        # Only join bookings table if we need to filter by user_id or service_id
+        needs_booking_join = user_id is not None or service_id is not None
+        if needs_booking_join:
+            query = query.join(Booking, Review.booking_id == Booking.id)
+        
         # Filter by booking
-        if booking_id_str:
+        if booking_id is not None:
+            booking_id_str = str(booking_id)
             query = query.filter(Review.booking_id == booking_id_str)
         
         # Filter by user (through booking relationship)
-        if user_id_str:
-            query = query.join(Booking).filter(Booking.user_id == user_id_str)
+        if user_id is not None:
+            user_id_str = str(user_id)
+            query = query.filter(Booking.user_id == user_id_str)
         
         # Filter by service (through booking relationship)
-        if service_id_str:
-            query = query.join(Booking).filter(Booking.service_id == service_id_str)
+        if service_id is not None:
+            service_id_str = str(service_id)
+            query = query.filter(Booking.service_id == service_id_str)
         
         # Filter by rating range
         if min_rating is not None:
@@ -123,8 +127,7 @@ class ReviewCRUD:
     @staticmethod
     def update_review(db: Session, review_id: UUID, review_update: ReviewUpdate, user_id: Optional[UUID] = None, is_admin: bool = False) -> Review:
         """Update review with proper authorization"""
-        review_id_str = str(review_id) if hasattr(review_id, 'hex') else review_id
-        user_id_str = str(user_id) if user_id and hasattr(user_id, 'hex') else user_id
+        review_id_str = str(review_id) 
         
         db_review = db.query(Review).filter(Review.id == review_id_str).first()
         if not db_review:
@@ -134,7 +137,8 @@ class ReviewCRUD:
             )
         
         # Authorization check: only the review author or admin can update
-        if not is_admin and user_id_str:
+        if not is_admin and user_id is not None:
+            user_id_str = str(user_id)
             booking = db.query(Booking).filter(Booking.id == db_review.booking_id).first()
             if not booking or booking.user_id != user_id_str:
                 raise HTTPException(
@@ -164,9 +168,8 @@ class ReviewCRUD:
     @staticmethod
     def delete_review(db: Session, review_id: UUID, user_id: Optional[UUID] = None, is_admin: bool = False) -> Review:
         """Delete review with proper authorization"""
-        review_id_str = str(review_id) if hasattr(review_id, 'hex') else review_id
-        user_id_str = str(user_id) if user_id and hasattr(user_id, 'hex') else user_id
-        
+        review_id_str = str(review_id) 
+
         db_review = db.query(Review).filter(Review.id == review_id_str).first()
         if not db_review:
             raise HTTPException(
@@ -175,7 +178,8 @@ class ReviewCRUD:
             )
         
         # Authorization check: only the review author or admin can delete
-        if not is_admin and user_id_str:
+        if not is_admin and user_id is not None:
+            user_id_str = str(user_id)
             booking = db.query(Booking).filter(Booking.id == db_review.booking_id).first()
             if not booking or booking.user_id != user_id_str:
                 raise HTTPException(
@@ -200,22 +204,20 @@ class ReviewCRUD:
     @staticmethod
     def get_review_by_booking(db: Session, booking_id: UUID) -> Optional[Review]:
         """Get review for a specific booking"""
-        booking_id_str = str(booking_id) if hasattr(booking_id, 'hex') else booking_id
+        booking_id_str = str(booking_id) 
         return db.query(Review).filter(Review.booking_id == booking_id_str).first()
 
     @staticmethod
     def get_service_review_stats(db: Session, service_id: UUID) -> dict:
         """Get review statistics for a service"""
-        from sqlalchemy import func
-        
-        service_id_str = str(service_id) if hasattr(service_id, 'hex') else service_id
+        service_id_str = str(service_id) 
         
         stats = db.query(
             func.count(Review.id).label('total_reviews'),
             func.avg(Review.rating).label('average_rating'),
             func.min(Review.rating).label('min_rating'),
             func.max(Review.rating).label('max_rating')
-        ).join(Booking).filter(Booking.service_id == service_id_str).first()
+        ).join(Booking, Review.booking_id == Booking.id).filter(Booking.service_id == service_id_str).first()
         
         return {
             'total_reviews': stats.total_reviews or 0,

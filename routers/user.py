@@ -2,14 +2,13 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from jose import jwt
-from security.auth import SECRET_KEY, ALGORITHM
 from uuid import UUID
 from typing import Annotated, List
 from datetime import datetime, timezone
 from crud.user import user_crud
 from schemas.user import UserCreate, UserOut, UserUpdate, UserLogin, LoginResponse, LogoutResponse, RefreshTokenRequest, RefreshTokenResponse
 from database.database import get_db
-from security.auth import oauth2_scheme, security, get_current_user, get_current_active_user, get_current_admin_user, authenticate_user
+from security.auth import oauth2_scheme, get_current_user, get_current_active_user, get_current_admin_user, authenticate_user
 from services.user import user_service
 from models.user import User
 from logger import get_logger
@@ -107,6 +106,7 @@ def logout_user(
 def refresh_access_token(refresh_request: RefreshTokenRequest, db: Session = Depends(get_db)):
     """Refresh access token using valid refresh token"""
     try:
+        logger.info("Refreshing access token")
         return user_service.refresh_access_token(db, refresh_request)
     except HTTPException:
         raise

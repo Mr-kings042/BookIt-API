@@ -2,12 +2,10 @@ from datetime import timedelta, datetime, timezone
 import uuid
 from fastapi import status
 from decimal import Decimal
-
 from models.user import User
 from models.service import Service
 from models.booking import Booking
 from models.review import Review
-from schemas.booking import BookingStatus
 from security.auth import create_access_token, get_password_hash
 
 def test_create_review_success(client, db_session):
@@ -61,7 +59,7 @@ def test_create_review_success(client, db_session):
         service_id=service.id,
         start_time=datetime.now(timezone.utc) - timedelta(days=1),
         end_time=datetime.now(timezone.utc) - timedelta(hours=22),
-        status=BookingStatus.completed
+        status="completed"
     )
     db_session.add(booking)
     db_session.commit()
@@ -135,7 +133,7 @@ def test_create_review_booking_not_completed(client, db_session):
         service_id=service.id,
         start_time=datetime.now(timezone.utc) + timedelta(days=1),
         end_time=datetime.now(timezone.utc) + timedelta(days=1, hours=1),
-        status=BookingStatus.pending
+        status="pending"
     )
     db_session.add(booking)
     db_session.commit()
@@ -202,7 +200,7 @@ def test_create_review_duplicate(client, db_session):
         service_id=service.id,
         start_time=datetime.now(timezone.utc) - timedelta(days=1),
         end_time=datetime.now(timezone.utc) - timedelta(hours=22),
-        status=BookingStatus.completed
+        status="completed"
     )
     db_session.add(booking)
     db_session.commit()
@@ -279,7 +277,7 @@ def test_get_reviews_public(client, db_session):
         service_id=service.id,
         start_time=datetime.now(timezone.utc) - timedelta(days=1),
         end_time=datetime.now(timezone.utc) - timedelta(hours=23),
-        status=BookingStatus.completed
+        status="completed"
     )
     db_session.add(booking)
     db_session.commit()
@@ -351,7 +349,7 @@ def test_get_reviews_with_filters(client, db_session):
             service_id=service.id,
             start_time=datetime.now(timezone.utc) - timedelta(days=i),
             end_time=datetime.now(timezone.utc) - timedelta(days=i, hours=-1),
-            status=BookingStatus.completed
+            status="completed"
         )
         db_session.add(booking)
         db_session.commit()
@@ -421,7 +419,7 @@ def test_get_review_by_id(client, db_session):
         service_id=service.id,
         start_time=datetime.now(timezone.utc) - timedelta(days=1),
         end_time=datetime.now(timezone.utc) - timedelta(hours=22),
-        status=BookingStatus.completed
+        status="completed"
     )
     db_session.add(booking)
     db_session.commit()
@@ -496,7 +494,7 @@ def test_update_review_success(client, db_session):
         service_id=service.id,
         start_time=datetime.now(timezone.utc) - timedelta(days=1),
         end_time=datetime.now(timezone.utc) - timedelta(hours=22),
-        status=BookingStatus.completed
+        status="completed"
     )
     db_session.add(booking)
     db_session.commit()
@@ -585,7 +583,7 @@ def test_update_review_unauthorized(client, db_session):
         service_id=service.id,
         start_time=datetime.now(timezone.utc) - timedelta(days=1),
         end_time=datetime.now(timezone.utc) - timedelta(hours=23),
-        status=BookingStatus.completed
+        status="completed"
     )
     db_session.add(booking)
     db_session.commit()
@@ -659,7 +657,7 @@ def test_delete_review_success(client, db_session):
         service_id=service.id,
         start_time=datetime.now(timezone.utc) - timedelta(days=1),
         end_time=datetime.now(timezone.utc) - timedelta(hours=23),
-        status=BookingStatus.completed
+        status="completed"
     )
     db_session.add(booking)
     db_session.commit()
@@ -730,7 +728,7 @@ def test_get_booking_review(client, db_session):
         service_id=service.id,
         start_time=datetime.now(timezone.utc) - timedelta(days=1),
         end_time=datetime.now(timezone.utc) - timedelta(hours=22),
-        status=BookingStatus.completed
+        status="completed"
     )
     db_session.add(booking)
     db_session.commit()
@@ -819,7 +817,7 @@ def test_get_service_review_stats(client, db_session):
             service_id=service.id,
             start_time=datetime.now(timezone.utc) - timedelta(days=i+1),
             end_time=datetime.now(timezone.utc) - timedelta(days=i+1, hours=-2),
-            status=BookingStatus.completed
+            status="completed"
         )
         db_session.add(booking)
         db_session.commit()
@@ -889,7 +887,7 @@ def test_admin_delete_any_review(client, db_session):
         service_id=service.id,
         start_time=datetime.now(timezone.utc) - timedelta(days=1),
         end_time=datetime.now(timezone.utc) - timedelta(hours=22),
-        status=BookingStatus.completed
+        status="completed"
     )
     db_session.add(booking)
     db_session.commit()
@@ -960,7 +958,7 @@ def test_get_user_reviews(client, db_session):
         service_id=service.id,
         start_time=datetime.now(timezone.utc) - timedelta(days=1),
         end_time=datetime.now(timezone.utc) - timedelta(hours=22),
-        status=BookingStatus.completed
+        status="completed"
     )
     db_session.add(booking)
     db_session.commit()
@@ -1034,7 +1032,7 @@ def test_admin_get_all_reviews(client, db_session):
         service_id=service.id,
         start_time=datetime.now(timezone.utc) - timedelta(days=1),
         end_time=datetime.now(timezone.utc) - timedelta(hours=22),
-        status=BookingStatus.completed
+        status="completed"
     )
     db_session.add(booking)
     db_session.commit()
@@ -1107,7 +1105,7 @@ def test_create_review_invalid_rating(client, db_session):
         service_id=service.id,
         start_time=datetime.now(timezone.utc) - timedelta(days=1),
         end_time=datetime.now(timezone.utc) - timedelta(hours=23),
-        status=BookingStatus.completed
+        status="completed"
     )
     db_session.add(booking)
     db_session.commit()
@@ -1122,12 +1120,12 @@ def test_create_review_invalid_rating(client, db_session):
     # Test invalid rating (out of range)
     invalid_review_data = {
         "booking_id": str(booking.id),
-        "rating": 6,  # Invalid - should be 1-5
+        "rating": 6,  
         "comment": "This should fail"
     }
     
     response = client.post("/api/reviews", json=invalid_review_data, headers=user_headers)
-    assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
+    assert response.status_code == status.HTTP_422_UNPROCESSABLE_CONTENT
 
 def test_get_nonexistent_review(client, db_session):
     """Test getting a review that doesn't exist"""
@@ -1260,7 +1258,7 @@ def test_reviews_pagination(client, db_session):
             service_id=service.id,
             start_time=datetime.now(timezone.utc) - timedelta(days=i+1),
             end_time=datetime.now(timezone.utc) - timedelta(days=i+1, hours=-1),
-            status=BookingStatus.completed
+            status="completed"
         )
         db_session.add(booking)
         db_session.commit()

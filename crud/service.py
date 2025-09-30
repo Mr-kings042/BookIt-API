@@ -132,7 +132,7 @@ class ServiceCRUD:
 
     @staticmethod
     def delete_service(db: Session, service_id: UUID, owner_id: Optional[UUID] = None) -> Service:
-        """Soft delete service by setting is_active to False"""
+        #Soft delete service by setting is_active to False
         db_service = db.query(Service).filter(Service.id == str(service_id)).first()
         if not db_service:
             raise HTTPException(
@@ -151,7 +151,7 @@ class ServiceCRUD:
             db_service.is_active = False
             db.commit()
             db.refresh(db_service)
-            logger.info(f"Service deleted (soft): {service_id}")
+            logger.info(f"Service deleted : {service_id}")
             return db_service
             
         except Exception as e:

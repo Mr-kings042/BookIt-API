@@ -14,8 +14,7 @@ class ReviewBase(BaseModel):
         return v
 
 class ReviewCreate(ReviewBase):
-    booking_id: UUID = Field(..., description="ID of the booking being reviewed")
-
+    booking_id: UUID 
 class ReviewUpdate(BaseModel):
     rating: Optional[int] = Field(None, ge=1, le=5, description="Rating from 1 to 5")
     comment: Optional[str] = Field(None, max_length=1000, description="Review comment")

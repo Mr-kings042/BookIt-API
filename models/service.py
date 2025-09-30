@@ -12,7 +12,7 @@ class Service(Base):
     id = Column(UUID(as_uuid=False), primary_key=True, default=lambda: str(uuid.uuid4()), index=True)
     title = Column(String, nullable=False, index=True)
     description = Column(String, nullable=True)
-    price = Column(Numeric(10, 2), nullable=False)  # Decimal for money
+    price = Column(Numeric(10, 2), nullable=False)
     duration_minutes = Column(Integer, nullable=False)
     is_active = Column(Boolean, default=True)
     owner_id = Column(UUID(as_uuid=False), ForeignKey("users.id"), nullable=False)

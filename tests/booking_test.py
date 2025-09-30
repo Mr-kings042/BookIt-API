@@ -284,8 +284,8 @@ def test_create_booking_invalid_time(client, db_session):
     }
     
     response = client.post("/api/bookings", json=booking_data, headers=user_headers)
-    assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
-
+    assert response.status_code == status.HTTP_422_UNPROCESSABLE_CONTENT
+    
 def test_get_user_bookings(client, db_session):
     """Test getting user's own bookings"""
     # Create admin and user

@@ -19,8 +19,8 @@ class ServiceUpdate(BaseModel):
 
 class ServiceResponse(ServiceBase):
     id: UUID
-    is_active: bool = Field(default=True)
-    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    is_active: bool 
+    created_at: datetime 
     owner_id: UUID
 
     class Config:

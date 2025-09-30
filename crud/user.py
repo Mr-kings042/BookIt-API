@@ -12,11 +12,11 @@ logger = get_logger(__name__)
 
 class UserCRUD:
     @staticmethod
-    def get_user_id(db: Session, user_id: UUID) -> Optional[User]:
+    def get_user_id(db: Session, user_id: UUID):
         return db.query(User).filter(User.id == str(user_id)).first()
 
     @staticmethod
-    def get_user_by_email(db: Session, email: str) -> Optional[User]:
+    def get_user_by_email(db: Session, email: str):
         return db.query(User).filter(User.email == email).first()
 
     @staticmethod

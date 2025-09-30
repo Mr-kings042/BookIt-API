@@ -60,7 +60,6 @@ class BookingResponse(BaseModel):
         from_attributes = True
 
 class BookingWithDetails(BookingResponse):
-    """Booking response with service and user details"""
     service: Optional[dict] = None
     user: Optional[dict] = None
     

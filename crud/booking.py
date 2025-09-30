@@ -18,8 +18,8 @@ class BookingCRUD:
     def create_booking(db: Session, booking: BookingCreate, user_id: UUID) -> Booking:
         """Create a new booking with time conflict validation"""
         # Convert UUIDs to strings for database query
-        service_id_str = str(booking.service_id) if hasattr(booking.service_id, 'hex') else booking.service_id
-        user_id_str = str(user_id) if hasattr(user_id, 'hex') else user_id
+        service_id_str = str(booking.service_id) 
+        user_id_str = str(user_id) 
         
         # Verify service exists and is active
         service = (
@@ -101,7 +101,7 @@ class BookingCRUD:
     @staticmethod
     def get_booking_by_id(db: Session, booking_id: UUID) -> Optional[Booking]:
         """Get booking by ID"""
-        booking_id_str = str(booking_id) if hasattr(booking_id, 'hex') else booking_id
+        booking_id_str = str(booking_id) 
         return db.query(Booking).filter(Booking.id == booking_id_str).first()
 
     @staticmethod
@@ -120,12 +120,12 @@ class BookingCRUD:
 
         # Filter by user (for user's own bookings)
         if user_id:
-            user_id_str = str(user_id) if hasattr(user_id, 'hex') else user_id
+            user_id_str = str(user_id) 
             query = query.filter(Booking.user_id == user_id_str)
 
         # Filter by service
         if service_id:
-            service_id_str = str(service_id) if hasattr(service_id, 'hex') else service_id
+            service_id_str = str(service_id) 
             query = query.filter(Booking.service_id == service_id_str)
 
         # Filter by status
@@ -145,7 +145,7 @@ class BookingCRUD:
         db: Session, user_id: UUID, skip: int = 0, limit: int = 100
     ) -> List[Booking]:
         """Get all bookings for a specific user"""
-        user_id_str = str(user_id) if hasattr(user_id, 'hex') else user_id
+        user_id_str = str(user_id) 
         return BookingCRUD.get_bookings(db=db, user_id=user_id_str, skip=skip, limit=limit)
 
     @staticmethod
@@ -157,8 +157,8 @@ class BookingCRUD:
         is_admin: bool = False,
     ) -> Booking:
         """Update booking with proper authorization and validation"""
-        booking_id_str = str(booking_id) if hasattr(booking_id, 'hex') else booking_id
-        user_id_str = str(user_id) if user_id and hasattr(user_id, 'hex') else user_id
+        booking_id_str = str(booking_id) 
+        user_id_str = str(user_id)
         
         db_booking = db.query(Booking).filter(Booking.id == booking_id_str).first()
         if not db_booking:
@@ -244,8 +244,8 @@ class BookingCRUD:
         is_admin: bool = False,
     ) -> Booking:
         """Delete booking with proper authorization"""
-        booking_id_str = str(booking_id) if hasattr(booking_id, 'hex') else booking_id
-        user_id_str = str(user_id) if user_id and hasattr(user_id, 'hex') else user_id
+        booking_id_str = str(booking_id) 
+        user_id_str = str(user_id) 
         
         db_booking = db.query(Booking).filter(Booking.id == booking_id_str).first()
         if not db_booking:
@@ -292,7 +292,7 @@ class BookingCRUD:
         db: Session, service_id: UUID, skip: int = 0, limit: int = 100
     ) -> List[Booking]:
         """Get all bookings for a specific service"""
-        service_id_str = str(service_id) if hasattr(service_id, 'hex') else service_id
+        service_id_str = str(service_id) 
         return BookingCRUD.get_bookings(
             db=db, service_id=service_id_str, skip=skip, limit=limit
         )
